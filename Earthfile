@@ -21,7 +21,7 @@ war:
     FROM openjdk:21-jdk-bookworm
     RUN apt-get update && apt-get install -y --no-install-recommends maven
     WORKDIR /jenkins
-    COPY --keep-ts . .
+    COPY --dir bom cli core coverage src test websocket war licenseCompleter.groovy pom.xml ./
     RUN --mount type=cache,target=/root/.m2 \
         mvn -am -pl war,bom -Pquick-build install
     SAVE ARTIFACT ./war/target/jenkins.war
