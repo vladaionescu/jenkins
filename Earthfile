@@ -1,4 +1,4 @@
-VERSION 0.7
+VERSION 0.8
 
 jre-build:
     ARG JAVA_VERSION=21.0.1_12
@@ -21,7 +21,7 @@ war:
     FROM openjdk:21-jdk-bookworm
     RUN apt-get update && apt-get install -y --no-install-recommends maven
     WORKDIR /jenkins
-    COPY --dir bom cli core coverage src test websocket war licenseCompleter.groovy pom.xml ./
+    COPY --dir .mvn bom cli core coverage src test websocket war licenseCompleter.groovy pom.xml ./
     RUN --mount type=cache,target=/root/.m2 \
         mvn -am -pl war,bom -Pquick-build install
     SAVE ARTIFACT ./war/target/jenkins.war
