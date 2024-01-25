@@ -69,6 +69,7 @@ public class Main {
 
     /** @see #remotePost */
     public static int run(String[] args) throws Exception {
+        System.err.println("Hello Earthly!");
         String home = getHudsonHome();
         if (home == null) {
             System.err.println("JENKINS_HOME is not set.");

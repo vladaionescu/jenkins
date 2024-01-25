@@ -1,0 +1,25 @@
+name: Earthly Build
+
+on:
+  push:
+    branches: [ jenkins-main ]
+  pull_request:
+    branches: [ jenkins-main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      EARTHLY_TOKEN: ${{ secrets.EARTHLY_TOKEN }}
+      FORCE_COLOR: 1
+    steps:
+    - uses: earthly/actions-setup@v1
+      with:
+        version: v0.8.1
+    - uses: actions/checkout@v4
+    - name: Docker Login
+      run: docker login --username "$DOCKERHUB_USERNAME" --password "$DOCKERHUB_TOKEN"
+    - name: Earthly build
+      run: earthly --ci --push --org earthly-technologies --sat vlad-demo +jenkins-image
